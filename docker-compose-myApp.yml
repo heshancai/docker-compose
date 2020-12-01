@@ -1,0 +1,20 @@
+#指定本 yml 依从的 compose 哪个版本制定的
+version: '3.1'
+#管理各种容器
+#管理各种容器
+services:
+  heapp:
+    #自己构建镜像  '.'表示使用当前路径的Dockerfile构建镜像
+    build: .
+    image: heapp #指定镜像名称
+    ports:     #指定容器的端口映射
+      - 8989:8888
+    container_name: myheApp  #指定容器的名称
+    depends_on: #当前容器依赖于其他容器
+      - redis
+  #管理redis容器
+  redis:
+    image: "library/redis:alpine"
+
+
+

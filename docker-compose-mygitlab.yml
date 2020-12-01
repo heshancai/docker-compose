@@ -1,0 +1,42 @@
+version: '3.1'
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce'
+    container_name: my_gitlab
+    restart: always #容器重启策略 --总是重启
+    hostname: 'gitlab'
+    privileged: true  #这个属性是赋予docker容器中用户root权限，这样在容器中就可以有操作文件权限了
+#    environment:  #环境配置
+#      TZ: 'Asia/Shanghai'
+#      GITLAB_OMNIBUS_CONFIG:
+#        external_url 'http://ip'
+#        gitlab_rails['smtp_enable'] = true
+#        gitlab_rails['smtp_address'] = "smtp.qq.com"
+#        gitlab_rails['smtp_port'] = 465
+#        gitlab_rails['smtp_user_name'] = "2840137176@qq.com"
+#        gitlab_rails['smtp_password'] = "heshancai"
+#        gitlab_rails['smtp_domain'] = "qq.com"
+#        gitlab_rails['smtp_authentication'] = "login"
+#        gitlab_rails['smtp_enable_starttls_auto'] = true
+#        gitlab_rails['smtp_tls'] = true
+#        gitlab_rails['gitlab_email_from'] = '2840137176@qq.com'
+#        gitlab_rails['gitlab_shell_ssh_port'] = 2234
+    ports:      #gitlab镜像官方推荐容器80端口映射宿主机8181端口 gitlab镜像官方推荐容器443端口映射宿主机8443端口 gitlab镜像官方推荐容器22端口映射宿主机22端口
+      - '8181:80'
+      - '8443:443'
+      - '3022:22'
+    volumes: #挂载的数据券，左边是宿主机  右边是容器对应位置
+      - /usr/local/software/docker/gitlab/config:/etc/gitlab
+      - /usr/local/software/docker/gitlab/data:/var/opt/gitlab
+      - /usr/local/software/docker/gitlab/log:/var/log/gitlab
+    network_mode: 'host'
+#    depends_on:
+#      - postgresql
+#      - redis
+#  redis:
+#    image: 'redis-conf'
+#  postgresql:
+#    image: 'postgres'
+
+
+
